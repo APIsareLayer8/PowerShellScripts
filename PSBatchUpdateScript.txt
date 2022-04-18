@@ -1,0 +1,29 @@
+Batch Update Script
+
+#Run Script as Admin
+#Create your variable based on where your updates are stored
+
+$UpdatePath = "C:\<updatelocation>"
+
+Get-HotFix 
+#Displays list of current updates waiting to be installed.
+
+Get-HotFix > "$UpdatePath\old_hotfix_list.txt"
+#Saves update list to a text file for later reference.
+
+$Updates = Get-ChildItem -Path $UpdatePath | Where-Object 
+{$_.Name -like "*.<extension>}
+#Useful if you only need to install updates with a particular extension.
+
+ForEach ($Update in $Updates) {
+	#Get the full path to the update file
+	$UpdateFilePath = $Update.FullName
+
+	#Logging
+	Write-Host "Installing update $Update"
+
+	#Install the Update
+	Start-Process -Wait wusa -ArgumentList "/update 	$UpdateFilePath", "/quiet", "/norestart"
+}
+
+Get-Hotfix > "$UpdatePath\new_hotfix\list.txt"

@@ -1,0 +1,25 @@
+PowerShell script to create a new Active Directory User:
+
+$newADUser = @{
+	Name = "Marge Simpson"
+	GivenName = "Marge"
+	Surname = "Simpson"
+	UserPrincipleName = "msimpson@someorg.com"
+	SamAccountName = "marge.simpson"
+	EmailAddress = "msimpson@somemeail.com"
+	Description = "Hapless wife of Homer Simpson"
+	OfficePhone = "123-234-7890"
+	ChangePasswordAtLogon = $true
+	AccountPassword = $(ConvertTo-SecureString "Password1" 	-AsPlainText -Force)
+	Enabled = $true
+}
+
+Hit the green run button in PowerShell ISE or execute in PowerShell.
+
+If you just call the variable $newADUser you will get an organized display of key:value pairs. 
+
+In order to create a new AD User type in the following command in the PowerShell Terminal:
+
+New-ADUser @newADUser
+
+The '@' symbol is called the 'splat' symbol and allows the user to input multiple key:value pairs at the same time.
